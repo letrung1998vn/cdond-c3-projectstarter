@@ -48,7 +48,7 @@ jobs:
             npm install
             npm run test
       - save_cache:
-          paths: [backend/node_modules]
+          paths: [frontend/node_modules]
           key: test-frontend
                 
   test-backend:
@@ -67,7 +67,41 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: test-backend
+  scan-frontend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [scan-frontend]
+      - run:
+          name: scan frontend
+          command: |
+            cd frontend
+            npm install
+            # npm install oauth-sign@^0.9.0
+            npm audit --audit-level=critical
+      - save_cache:
+          paths: [frontend/node_modules]
+          key: scan-frontend
 
+  scan-backend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [scan-backend]
+      - run:
+          name: scan backend
+          command: |
+            cd backend
+            npm install
+            # npm install oauth-sign@^0.9.0
+            npm audit --audit-level=critical
+      - save_cache:
+          paths: [backend/node_modules]
+          key: scan-backend
 workflows:
   default:
     jobs:
@@ -77,3 +111,7 @@ workflows:
           requires: [build-frontend]
       - test-backend:
           requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
