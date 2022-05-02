@@ -1,6 +1,5 @@
 version: 2.1
 
-
 jobs:
   build-frontend:
     docker:
@@ -115,7 +114,8 @@ jobs:
       - run:
           name: Ensure back-end infrastructure exists
           command: |
-            aws cloudformation deploy --template-file .circleci/files/backend.yml \
+            aws cloudformation deploy \
+              --template-file .circleci/files/backend.yml \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
               --tags project=udaproject
@@ -126,7 +126,7 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
-              --tags project=udaproject 
+              --tags project=udaproject
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -161,7 +161,7 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
-      # Here's where you will add some code to rollback on failure   
+      # Here's where you will add some code to rollback on failure
   run-migrations:
     docker:
       - image: circleci/node:13.8.0
@@ -182,7 +182,7 @@ jobs:
                 # If you are using memstash.io, generate the token "7933fe63-4687-4fa1-8426-aa25aa1730ec" on the website
                 curl -H "Content-Type: text/plain" -H "token: bdba7f941d28250e5299e4a240d110f2fef8d60d" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
             fi
-     # Here's where you will add some code to rollback on failure
+      # Here's where you will add some code to rollback on failure
   deploy-frontend:
     docker:
       - image: amazon/aws-cli
@@ -208,8 +208,8 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      # Here's where you will add some code to rollback on failure      
-                    
+      # Here's where you will add some code to rollback on failure
+
   deploy-backend:
     docker:
       - image: ansible/ansible
@@ -236,10 +236,10 @@ jobs:
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-      # Here's where you will add some code to rollback on failure  
+      # Here's where you will add some code to rollback on failure
   smoke-test:
     docker:
-      - image: alpine 
+      - image: alpine
     steps:
       # Checkout code from git
       - run:
@@ -275,8 +275,8 @@ jobs:
             else
               return 1
             fi
-      # Here's where you will add some code to rollback on failure  
-          
+      # Here's where you will add some code to rollback on failure
+
 workflows:
   default:
     jobs:
