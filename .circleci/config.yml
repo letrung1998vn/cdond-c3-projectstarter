@@ -1,14 +1,9 @@
 version: 2.1
-
-orbs:
-  node: circleci/node@5.0.2
-  aws-cli: circleci/aws-cli@2.0.3
-
-
+            
 jobs:
   build-frontend:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node:13.6.0
     steps:
       - checkout
       - restore_cache:
@@ -25,7 +20,7 @@ jobs:
 
   build-backend:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node:13.14.0
     steps:
       - checkout
       - restore_cache:
@@ -35,13 +30,14 @@ jobs:
           command: |
             cd backend
             npm install
+
             npm run build
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
   test-frontend:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node:13.6.0
     steps:
       - checkout
       - restore_cache:
@@ -58,7 +54,7 @@ jobs:
                 
   test-backend:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node:13.14.0
     steps:
       - checkout
       - restore_cache:
@@ -74,7 +70,7 @@ jobs:
           key: test-backend
   scan-frontend:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node:13.6.0
     steps:
       - checkout
       - restore_cache:
@@ -92,7 +88,7 @@ jobs:
 
   scan-backend:
     docker:
-      - image: cimg/base:stable
+      - image: circleci/node:13.6.0
     steps:
       - checkout
       - restore_cache:
