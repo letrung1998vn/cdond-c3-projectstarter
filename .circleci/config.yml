@@ -1,5 +1,5 @@
 version: 2.1
-            
+
 jobs:
   build-frontend:
     docker:
@@ -51,7 +51,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: test-frontend
-                
+
   test-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -98,14 +98,14 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix --audit-level=critical --force
+            npm audit fix --force
             npm audit --audit-level=critical
       - save_cache:
           paths: [backend/node_modules]
           key: scan-backend
   deploy-infrastructure:
     docker:
-     - image: amazon/aws-cli
+      - image: amazon/aws-cli
     steps:
       # Checkout code from git
       - run:
@@ -115,7 +115,7 @@ jobs:
               --template-file .circleci/files/backend.yml 
               --tags project=udaproject
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" 
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
       - run:
           name: Ensure front-end infrastructure exist
           command: |
@@ -123,7 +123,7 @@ jobs:
              --template-file .circleci/files/backend.yml 
               --tags project=udaproject
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" 
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -134,7 +134,7 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      # Here's where you will add some code to rollback on failure   
+      # Here's where you will add some code to rollback on failure
 workflows:
   default:
     jobs:
