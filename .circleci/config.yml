@@ -130,7 +130,7 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            cd .circleci\ansible
+            cd .circleci/ansible
             my_ip=$(EC2Instance.Ipv6Addresses)
             echo "AWS IP - $my_ip" > inventory.txt
       - persist_to_workspace:
