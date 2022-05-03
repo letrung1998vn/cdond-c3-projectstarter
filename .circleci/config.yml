@@ -186,7 +186,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
   configure-infrastructure:
     docker:
-      - image: cimg/base:2022.04
+      - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -211,7 +211,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
   run-migrations:
     docker:
-      - image: cimg/base:2022.04
+      - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
       - checkout
@@ -263,7 +263,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: cimg/base:2022.04
+      - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -298,7 +298,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
   smoke-test:
     docker:
-      - image: alpine
+      - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
       - run:
