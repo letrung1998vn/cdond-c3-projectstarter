@@ -195,10 +195,6 @@ jobs:
           # Must be absolute path or relative path from working_directory
           at: project/.circleci/ansible/inventory.txt
       - run:
-          name: Install dependencies
-          command: |
-            npm install
-      - run:
           name: Configure server
           command: |
             cd .circleci/ansible
