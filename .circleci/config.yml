@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   python: circleci/python@2.0.3
   ansible: orbss/ansible@0.2.3
+  ansible-playbook: orbss/ansible-playbook@0.0.5
 
 commands:
   destroy-environment:
