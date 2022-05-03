@@ -180,6 +180,7 @@ jobs:
             cd .circleci/ansible
             my_ip=$(curl http://checkip.amazonaws.com/)
             echo "AWS IP - $my_ip" > inventory.txt
+            cat inventory.txt
       - persist_to_workspace:
           root: ~/
           paths:
@@ -316,6 +317,7 @@ jobs:
           name: Get backend url
           command: |
             export BACKEND_IP=$(curl http://checkip.amazonaws.com/)
+            echo ${BACKEND_IP}
       - run:
           name: Backend smoke test.
           command: |
@@ -327,7 +329,6 @@ jobs:
             else
                 return 1
             fi
-            pm2 logs npm
       - run:
           name: Frontend smoke test.
           command: |
