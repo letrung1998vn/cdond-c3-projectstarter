@@ -11,6 +11,8 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            sudo apt update
+            sudo apt-get install awscli
             echo "Destroying environment: << parameters.workflow_id >> "
             aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}
             aws cloudformation delete-stack \
@@ -27,6 +29,9 @@ commands:
           name: Revert migrations
           # Add when this will run
           command: |
+            sudo apt update
+            sudo apt-get install curl
+            sudo apt-get install -y tar gzip
             # Your Memstash or kvdb.io GET URL code goes here
             SUCCESS=$(curl --insecure  https://kvdb.io/KQhJEDb9eK2HdGDnnMZYi4/migration_<< parameters.workflow_id >>)
             # Logic for reverting the database state
@@ -302,8 +307,10 @@ jobs:
           name: Install dependencies
           command: |
             npm install
+            sudo apt update
             sudo apt-get install awscli
             sudo apt-get install curl
+            sudo apt-get install python3
       - run:
           name: Get backend url
           command: |
