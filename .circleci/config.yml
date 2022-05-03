@@ -202,7 +202,6 @@ jobs:
           name: Install dependencies
           command: |
             npm install
-            yum install -y tar gzip
       - run:
           name: Configure server
           command: |
@@ -286,7 +285,6 @@ jobs:
             cd backend
             npm i
             sudo apt-get install curl
-            sudo apt-get install tar
             npm run build
             cd ..
             # Zip the directory
@@ -307,7 +305,6 @@ jobs:
             npm install
             sudo apt-get install awscli
             sudo apt-get install curl
-            yum install -y tar gzip
       - run:
           name: Get backend url
           command: |
