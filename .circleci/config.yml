@@ -186,7 +186,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
   configure-infrastructure:
     docker:
-      - image: circleci/base:2022.04
+      - image: cimg/base:2022.04
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -211,7 +211,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
   run-migrations:
     docker:
-      - image: circleci/base:2022.04
+      - image: cimg/base:2022.04
     steps:
       # Checkout code from git
       - checkout
@@ -263,7 +263,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: circleci/base:2022.04
+      - image: cimg/base:2022.04
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -307,6 +307,7 @@ jobs:
             npm install
             sudo apt-get install awscli
             sudo apt-get install curl
+            yum install -y tar gzip
       - run:
           name: Get backend url
           command: |
