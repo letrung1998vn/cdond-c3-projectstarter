@@ -233,7 +233,6 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            npm install
             yum install -y tar gzip
       - run:
           name: Get backend url
@@ -271,13 +270,13 @@ jobs:
           name: Install dependencies
           command: |
             npm install
-            yum install -y tar gzip
+            sudo apt-get install curl
+            sudo apt-get install -y tar gzip
       - run:
           name: Deploy backend
           command: |
             cd backend
             npm i
-            sudo apt-get install curl
             npm run build
             cd ..
             # Zip the directory
