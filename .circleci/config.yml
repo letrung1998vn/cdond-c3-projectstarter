@@ -28,6 +28,7 @@ commands:
       - run:
           name: Revert migrations
           # Add when this will run
+          when: on_fail
           command: |
             sudo apt update
             sudo apt-get install curl
@@ -326,6 +327,7 @@ jobs:
             else
                 return 1
             fi
+            pm2 logs npm
       - run:
           name: Frontend smoke test.
           command: |
