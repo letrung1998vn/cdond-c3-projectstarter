@@ -236,7 +236,7 @@ jobs:
             sudo apt update
             sudo apt-get install python3
             sudo apt-get install awscli
-            yum install -y tar gzip
+            sudo apt-get install -y tar gzip
       - run:
           name: Get backend url
           command: |
