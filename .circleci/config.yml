@@ -14,7 +14,7 @@ commands:
             sudo apt update
             sudo apt-get install awscli
             echo "Destroying environment: << parameters.workflow_id >> "
-            aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}
+            aws s3 rb s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --force 
             aws cloudformation delete-stack \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
             aws cloudformation delete-stack \
@@ -247,7 +247,10 @@ jobs:
       - run:
           name: Get backend url
           command: |
-            export BACKEND_IP=$(curl http://checkip.amazonaws.com/)
+            export BACKEND_IP=$(aws ec2 describe-instances \
+                                    --filters Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}" Name=instance-state-name,Values=running \
+                                    --query 'Reservations[*].Instances[*].PublicDnsName' \
+                                    --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
@@ -316,7 +319,10 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            export BACKEND_IP=$(curl http://checkip.amazonaws.com/)
+            export BACKEND_IP=$(aws ec2 describe-instances \
+                                    --filters Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}" Name=instance-state-name,Values=running \
+                                    --query 'Reservations[*].Instances[*].PublicDnsName' \
+                                    --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
@@ -342,6 +348,25 @@ jobs:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
       - revert-migrations:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+  cloudfront-update:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/cloudfront.yml \
+              --stack-name InitialStack \
+              --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --tags project=udapeople
+      # Here's where you will add some code to rollback on failure
 workflows:
   default:
     jobs:
@@ -370,3 +395,5 @@ workflows:
           requires: [run-migrations]
       - smoke-test:
           requires: [deploy-backend, deploy-frontend]
+      # - cloudfront-update:
+      #     requires: [smoke-test]
