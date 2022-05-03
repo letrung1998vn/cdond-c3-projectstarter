@@ -158,7 +158,7 @@ jobs:
             sudo apt-get install awscli
             sudo apt-get install ansible
             sudo apt-get install python3-pip
-            python3 -m pip install install cloudformation-cli cloudformation-cli-python-plugin
+            python3 -m pip install cloudformation-cli cloudformation-cli-python-plugin
       - run:
           name: Ensure back-end infrastructure exists
           command: |
