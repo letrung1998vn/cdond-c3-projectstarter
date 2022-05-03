@@ -28,7 +28,7 @@ commands:
           # Add when this will run
           command: |
             # Your Memstash or kvdb.io GET URL code goes here
-            SUCCESS=$(curl --insecure  https://kvdb.io/S1huyQCUsU6YxWW99rLee9/migration_<< parameters.workflow_id >>)
+            SUCCESS=$(curl --insecure  https://kvdb.io/KQhJEDb9eK2HdGDnnMZYi4/migration_<< parameters.workflow_id >>)
             # Logic for reverting the database state
             if (( $SUCCESS == 1 ));
             then
@@ -220,7 +220,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-                curl https://kvdb.io/S1huyQCUsU6YxWW99rLee9/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                curl http://kvdb.io/KQhJEDb9eK2HdGDnnMZYi4/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       # Here's where you will add some code to rollback on failure
 
@@ -326,6 +326,7 @@ jobs:
               return 1
             fi
       # Here's where you will add some code to rollback on failure
+  
 
 workflows:
   default:
