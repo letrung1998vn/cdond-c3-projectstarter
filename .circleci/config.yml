@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@2.0.3
-  ansible: orbss/ansible@0.2.3
+
 commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -185,7 +185,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
   configure-infrastructure:
     docker:
-      - image: circleci/base:2022.04
+      - image: tomonorimatsumura/ubuntu18-ansible:stable
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -278,8 +278,7 @@ jobs:
           name: Install dependencies
           command: |
             npm install
-            sudo apt-get instal pip
-            python install
+            yum install -y tar gzip
       - run:
           name: Deploy backend
           command: |
