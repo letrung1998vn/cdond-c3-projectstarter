@@ -175,7 +175,7 @@ jobs:
             cd .circleci/ansible/
             my_ip=$(aws ec2 describe-instances \
                                     --filters Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}" Name=instance-state-name,Values=running \
-                                    --query 'Reservations[*].Instances[*].PublicDnsName' \
+                                    --query 'Reservations[*].Instances[*].PublicIpAddress' \
                                     --output text)
             echo "\n"$(my_ip) >> inventory.txt
             cat inventory.txt
@@ -263,7 +263,7 @@ jobs:
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
                                     --filters Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}" Name=instance-state-name,Values=running \
-                                    --query 'Reservations[*].Instances[*].PublicDnsName' \
+                                    --query 'Reservations[*].Instances[*].PublicIpAddress' \
                                     --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
@@ -340,7 +340,7 @@ jobs:
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
                                     --filters Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}" Name=instance-state-name,Values=running \
-                                    --query 'Reservations[*].Instances[*].PublicDnsName' \
+                                    --query 'Reservations[*].Instances[*].PublicIpAddress' \
                                     --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
@@ -358,15 +358,15 @@ jobs:
             if curl -s ${URL} | grep "Welcome"
             then
               # Change this to 0 after the job fails
-              return 0
+              return 1
             else
               return 1
             fi
       # Here's where you will add some code to rollback on failure
-      # - destroy-environment:
-      #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
-      # - revert-migrations:
-      #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      - revert-migrations:
+          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
   cloudfront-update:
     docker:
       - image: amazon/aws-cli
