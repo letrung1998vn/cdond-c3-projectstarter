@@ -190,7 +190,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.9.1-alpine3.12
+      - image: ansibleplaybookbundle/pyzip-demo-apb
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -201,10 +201,6 @@ jobs:
             - "4d:12:32:c8:29:9a:da:34:4a:ff:66:b4:e5:30:26:2c"
       - attach_workspace:
           at: ~/
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update aws-cli ansible 
       - run:
           name: Configure server
           command: |
@@ -243,7 +239,7 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazon/aws-cli
     steps:
       # Checkout code from git
       - checkout
@@ -279,7 +275,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: ansibleplaybookbundle/pyzip-demo-apb
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -297,15 +293,8 @@ jobs:
             cd backend
             npm install
             sudo apt update
-            sudo apt upgrade -y
-            sudo apt-get install -y software-properties-common
-            sudo add-apt-repository --yes --update ppa:ansible/ansible
-            sudo apt update
-            sudo apt install -y ansible
-            ansible --version
             sudo apt-get install curl
             sudo apt-get install -y tar gzip
-            sudo apt-get install ansible
             sudo apt-get install awscli
       - run:
           name: Deploy backend
