@@ -9,5 +9,6 @@
     tar -xzvf artifact.tar.gz -C .
     sudo npm install
     sudo npm run build
+    sudo npm intall pm2 -g
     sudo pm2 stop default
     sudo pm2 start npm -- start
