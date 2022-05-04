@@ -277,7 +277,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: ansibleplaybookbundle/pyzip-demo-apb
+      - image: ibmcom/ansible-ppc64le
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
