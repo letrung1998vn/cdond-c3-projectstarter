@@ -226,6 +226,7 @@ jobs:
           command: |
             cd backend
             npm install
+            sudo apt-get update
             sudo apt-get install awscli
             sudo apt-get install curl
             # Run and save the migration output
@@ -299,7 +300,7 @@ jobs:
           name: Install dependencies
           command: |
             cd backend
-            apk add --update ansible nodejs npm python3
+            apk add --update ansible nodejs npm python3 py3-pip
             pip install awscli
       - run:
           name: Deploy backend
