@@ -190,7 +190,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: ansibleplaybookbundle/pyzip-demo-apb
+      - image: alpine
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -201,6 +201,10 @@ jobs:
             - "4d:12:32:c8:29:9a:da:34:4a:ff:66:b4:e5:30:26:2c"
       - attach_workspace:
           at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update aws-cli ansible 
       - run:
           name: Configure server
           command: |
@@ -294,6 +298,7 @@ jobs:
           command: |
             cd backend
             apk add --update ansible nodejs npm
+            Install python/pip
             pip install awscli
       - run:
           name: Deploy backend
