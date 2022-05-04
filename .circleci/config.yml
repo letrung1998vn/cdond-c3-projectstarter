@@ -5,7 +5,7 @@ commands:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       workflow_id:
-        type: string   
+        type: string
     steps:
       - run:
           name: Destroy environments
@@ -23,7 +23,7 @@ commands:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
       workflow_id:
-        type: string      
+        type: string
     steps:
       - run:
           name: Revert migrations
@@ -41,7 +41,7 @@ commands:
                 cd ~/project/backend
                 npm install
                 npm run migration:revert
-            fi  
+            fi
 
 jobs:
   build-frontend:
@@ -188,7 +188,7 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure
-      
+
   configure-infrastructure:
     docker:
       - image: quipper/ansible-circleci
@@ -277,7 +277,7 @@ jobs:
             - "4d:12:32:c8:29:9a:da:34:4a:ff:66:b4:e5:30:26:2c"
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: ~/ 
+          at: ~/
       - run:
           name: Install dependencies
           command: |
@@ -304,7 +304,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
   smoke-test:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.9.1-alpine3.12
     steps:
       # Checkout code from git
       - checkout
@@ -315,10 +315,8 @@ jobs:
           command: |
             cd backend
             npm install
-            sudo apt update
-            sudo apt-get install awscli
-            sudo apt-get install curl
-            sudo apt-get install python3
+            apk add --update curl nodejs npm
+            pip install awscli
       - run:
           name: Frontend smoke test.
           command: |
@@ -342,9 +340,9 @@ jobs:
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
             then
-                return 0
+              return 0
             else
-                return 1
+              return 1
             fi
       # Here's where you will add some code to rollback on failure
       - destroy-environment:
