@@ -277,7 +277,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: ibmcom/ansible-ppc64le
+      - image: alpine
     steps:
       # Checkout code from git
       # Add ssh keys with fingerprint
@@ -293,12 +293,8 @@ jobs:
           name: Install dependencies
           command: |
             cd backend
-            apt update
-            apt-get install curl
-            apt-get install -y tar gzip
-            apt-get install awscli
-            apt install nodejs npm
-            npm install
+            apk add --update ansible nodejs npm
+            pip install awscli
       - run:
           name: Deploy backend
           command: |
