@@ -6,10 +6,6 @@
 - name: start npm
   shell: |
     cd /home/ubuntu
-    sudo apt update
-    sudo apt install nodejs npm
-    sudo npm install
-    sudo npm install -g pm2
     tar -xzvf artifact.tar.gz -C .
     sudo npm run build
     sudo pm2 completion install
