@@ -293,12 +293,12 @@ jobs:
           name: Install dependencies
           command: |
             cd backend
-            sudo apt update
-            sudo apt-get install curl
-            sudo apt-get install -y tar gzip
-            sudo apt-get install awscli
-            sudo apt install nodejs npm
-            sudo npm install
+            apt update
+            apt-get install curl
+            apt-get install -y tar gzip
+            apt-get install awscli
+            apt install nodejs npm
+            npm install
       - run:
           name: Deploy backend
           command: |
@@ -315,8 +315,8 @@ jobs:
             echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> ".env"
             echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> ".env"
             echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> ".env"
-            sudo npm i
-            sudo npm run build
+            npm i
+            npm run build
             cd ..
             # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
