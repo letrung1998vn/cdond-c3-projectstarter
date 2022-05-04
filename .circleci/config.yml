@@ -11,8 +11,6 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            sudo apt update
-            sudo apt-get install awscli
             echo "Destroying environment: << parameters.workflow_id >> "
             aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive 
             aws cloudformation delete-stack \
@@ -30,9 +28,6 @@ commands:
           # Add when this will run
           when: on_fail
           command: |
-            sudo apt update
-            sudo apt-get install curl
-            sudo apt-get install -y tar gzip
             # Your Memstash or kvdb.io GET URL code goes here
             SUCCESS=$(curl --insecure  https://kvdb.io/KQhJEDb9eK2HdGDnnMZYi4/migration_<< parameters.workflow_id >>)
             # Logic for reverting the database state
@@ -314,7 +309,6 @@ jobs:
           name: Install dependencies
           command: |
             cd backend
-            npm install
             apk add --update curl nodejs npm
             pip install awscli
       - run:
@@ -345,10 +339,10 @@ jobs:
               return 1
             fi
       # Here's where you will add some code to rollback on failure
-      - destroy-environment:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
-      - revert-migrations:
-          workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      # - destroy-environment:
+      #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      # - revert-migrations:
+      #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
   cloudfront-update:
     docker:
       - image: amazon/aws-cli
