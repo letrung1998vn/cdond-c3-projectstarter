@@ -8,11 +8,10 @@
     cd /home/ubuntu
     sudo apt update
     sudo apt install nodejs npms
-    npm install
-    npm intall pm2 -g
+    sudo npm install
+    sudo npm install -g pm2
     tar -xzvf artifact.tar.gz -C .
     sudo apt install nodejs npm
     npm run build
     pm2 completion installl
-    pm2 stop default
     pm2 start npm -- start
