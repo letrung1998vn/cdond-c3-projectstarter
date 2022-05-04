@@ -177,7 +177,7 @@ jobs:
                                     --filters Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}" Name=instance-state-name,Values=running \
                                     --query 'Reservations[*].Instances[*].PublicIpAddress' \
                                     --output text)
-            echo "\n"$(my_ip) >> inventory.txt
+            echo ${my_ip} >> inventory.txt
             cat inventory.txt
       - persist_to_workspace:
           root: ~/
