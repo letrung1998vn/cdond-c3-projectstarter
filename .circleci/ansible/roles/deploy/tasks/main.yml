@@ -6,10 +6,13 @@
 - name: start npm
   shell: |
     cd /home/ubuntu
-    tar -xzvf artifact.tar.gz -C .
-    sudo npm install
-    sudo npm run build
+    sudo apt update
+    sudo apt install nodejs npms
+    npm install
     npm intall pm2 -g
-    pm2 completion install
-    sudo pm2 stop default
-    sudo pm2 start npm -- start
+    tar -xzvf artifact.tar.gz -C .
+    sudo apt install nodejs npm
+    npm run build
+    pm2 completion installl
+    pm2 stop default
+    pm2 start npm -- start
