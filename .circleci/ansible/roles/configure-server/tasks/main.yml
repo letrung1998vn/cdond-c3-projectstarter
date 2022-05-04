@@ -1,0 +1,24 @@
+- name: Upgrade apt
+  become: true
+  apt:
+      upgrade: yes
+
+- name: Install npm
+  become: true
+  apt:
+    name: npm
+    update_cache: yes
+    state: latest
+
+- name: Install nodejs
+  become: true
+  shell: |
+    sudo apt-get install -y build-essential
+    sudo apt-get install -y curl openssl libssl-dev
+    sudo apt-get install -y nodejs 
+- name: Install pm2
+  become: true
+  npm:
+    name: pm2
+    state: present
+    global: yes

@@ -325,7 +325,6 @@ jobs:
             export BACKEND_IP=$(curl http://checkip.amazonaws.com/)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
-            echo curl "http://localhost:3030/"
             if curl "${API_URL}/api/status" | grep "ok"
             then
                 return 0
