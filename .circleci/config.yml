@@ -294,9 +294,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            cd backend
+            npm install
             sudo apt update
             sudo apt upgrade -y
-            sudo reboot
             sudo apt-get install -y software-properties-common
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt update
@@ -306,8 +307,6 @@ jobs:
             sudo apt-get install -y tar gzip
             sudo apt-get install ansible
             sudo apt-get install awscli
-            cd backend
-            npm install
       - run:
           name: Deploy backend
           command: |
@@ -328,7 +327,7 @@ jobs:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
   smoke-test:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.9.1-alpine3.12
     steps:
       # Checkout code from git
       - checkout
