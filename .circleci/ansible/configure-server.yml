@@ -16,10 +16,11 @@
   
     - name: "wait 600 seconds for target connection to become reachable/usable."
       wait_for:
-        host:  '{{ (default(inventory_hostname) }}'
+        host: '{{ inventory_hostname }}'
         port: 22
         search_regex: OpenSSH
         delay: 10
+        state: started
       connection: local
 
     - name: Gather facts for first time
