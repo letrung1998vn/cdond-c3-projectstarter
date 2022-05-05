@@ -21,10 +21,7 @@
         search_regex: OpenSSH
         delay: 10
         state: started
-      connection: local
-
-    - name: Gather facts for first time
-      setup:
+      connection: ssh
 
     - name: "install python for Ansible."
       become: true
