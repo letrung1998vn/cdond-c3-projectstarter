@@ -1,13 +1,30 @@
 - name: update apt
-  command: sudo apt update
   become: true
+  become_method: sudo
+  become_user: root 
+  apt:
+    update_cache: yes
 
-- name: Install npm
-  command: sudo apt install nodejs npms
+- name: upgrade apt
   become: true
+  become_method: sudo
+  become_user: root 
+  apt:
+    upgrade: yes
+  
+- name: Install npm
+  become: true
+  become_method: sudo
+  become_user: root 
+  apt:
+    name: ["nodejs", "npm"]
+    update_cache: yes
+    state: latest
 
 - name: Install pm2
   become: true
+  become_method: sudo
+  become_user: root 
   npm:
     name: pm2
     state: present
