@@ -175,7 +175,7 @@ jobs:
             cd .circleci/ansible/
             my_ip=$(aws ec2 describe-instances \
                                     --filters Name=tag:Name,Values="backend-${CIRCLE_WORKFLOW_ID:0:7}" Name=instance-state-name,Values=running \
-                                    --query 'Reservations[*].Instances[*].PublicDnsName' \
+                                    --query 'Reservations[*].Instances[*].PublicIpAddress' \
                                     --output text)
             echo ${my_ip} >> inventory.txt
             cat inventory.txt

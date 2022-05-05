@@ -18,17 +18,14 @@
       wait_for:
         host: '{{ inventory_hostname }}'
         port: 22
-        search_regex: OpenSSH
         delay: 10
-        state: started
-      connection: local
+      delegate_to: localhost
 
     - name: "install python for Ansible."
       become: true
       apt:
         name: python3
         state: latest
-      delegate_to: localhost
 
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
